@@ -1,0 +1,13 @@
+root@e45b42b9b5d2:~# cd /
+root@e45b42b9b5d2:/# hive
+
+hive> CREATE TABLE files(line STRING);
+hive> LOAD DATA LOCAL INPATH '/root/file01.txt' INTO TABLE files;
+
+hive> SELECT * FROM files;
+hive> CREATE TABLE word_counts AS
+    > SELECT word, count(word) AS wordcount FROM
+    > (SELECT explode(split(line, ' ')) AS word FROM files) w
+    > GROUP BY word
+    > ORDER BY word;
+hive> SELECT * FROM word_counts;

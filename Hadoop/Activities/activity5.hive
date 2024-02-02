@@ -1,0 +1,38 @@
+root@e45b42b9b5d2:/# cd root/
+root@e45b42b9b5d2:~# vim EmpData.csv
+root@e45b42b9b5d2:~# cd /
+root@e45b42b9b5d2:/# hive
+
+hive> show databases;
+hive> create database office;
+hive> use office;
+hive> CREATE TABLE employee
+    > (id INT, name STRING, dept STRING, yoj INT, salary INT)
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > TBLPROPERTIES ("skip.header.line.count"="1");
+
+hive> DESCRIBE employee;
+hive> LOAD DATA LOCAL INPATH
+    > '/EmpData.csv'
+    > INTO TABLE employee;
+
+hive> SELECT * FROM employee;
+hive> SELECT COUNT(*) FROM employee;
+
+hive> SELECT  id, name FROM employee;
+hive> SELECT * FROM employee WHERE salary > 30000;
+hive> SELECT count(*) FROM employee; 
+
+hive> INSERT OVERWRITE [LOCAL] DIRECTORY directory
+
+hive> INSERT OVERWRITE DIRECTORY '/user/root/output/export'
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT * FROM emp.employee;
+
+hive> dfs <dfs command>
+hive> dfs -ls /user/root/output/export
+
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/export' 
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT * FROM emp.employee;
+$ cat /path/to/result/* > output.csv
