@@ -1,0 +1,8 @@
+hive> CREATE TABLE episodeIV (name STRING, line STRING)
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+    > TBLPROPERTIES("skip.header.line.count"="2");
+
+hive> LOAD DATA LOCAL INPATH '/episodeIV_dialogues.txt' INTO TABLE episodeIV;
+
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/root/ProjectOutput1'
+    > SELECT COUNT(*) FROM episodeIV WHERE INSTR(line, 'Luke')>0;

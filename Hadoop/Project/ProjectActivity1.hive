@@ -1,0 +1,13 @@
+hive> CREATE TABLE starwar_episodes (name STRING, line STRING)
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+    > TBLPROPERTIES("skip.header.line.count"="2");
+
+hive> LOAD DATA LOCAL INPATH '/episodeIV_dialogues.txt' INTO TABLE starwar_episodes;
+hive> LOAD DATA LOCAL INPATH '/episodeV_dialogues.txt' INTO TABLE starwar_episodes;
+hive> LOAD DATA LOCAL INPATH '/episodeVI_dialogues.txt' INTO TABLE starwar_episodes;
+
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/root/ProjectOutput'
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT name, COUNT(name) as NoOflines FROM starwar_episodes
+    > GROUP BY name
+    > ORDER BY NoOflines DESC;
